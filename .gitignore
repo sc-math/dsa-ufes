@@ -1,0 +1,23 @@
+# Ignora pastas de build geradas por CLion/CMake
+cmake-build-*/
+
+# Ignora arquivos temporários
+*.o
+*.obj
+*.exe
+*.out
+*.log
+
+# Ignora arquivos de cache do CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+
+# Ignora arquivos do CLion/JetBrains
+.idea/
+*.iml
+
+# Ignora arquivos do sistema
+.DS_Store
+Thumbs.db
