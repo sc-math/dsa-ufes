@@ -1,6 +1,20 @@
-//
-// Created by Math on 17/05/2025.
-//
+/*
+* Projeto: Lista Encadeada Simples
+ * Tipo: Estrutura de Dados Linear
+ * Arquivo: simple_list.c
+ *
+ * Descrição:
+ * Implementação de uma lista encadeada simples em C, com operações básicas como:
+ * inserção no início/fim, remoção, busca e exibição.
+ *
+ * Paradigma: Imperativo
+ * Categoria: Estrutura de Dados Linear
+ *
+ * Autor: Matheus Cruz (sc-math)
+ * Universidade: UFES
+ * Disciplina: Estrutura de Dados
+ * Data: 17/05/2025
+ */
 
 #include "simple_list.h"
 #include <stdio.h>

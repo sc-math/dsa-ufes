@@ -1,6 +1,9 @@
-//
-// Created by Math on 17/05/2025.
-//
+/*
+* Arquivo: main.c
+ * Descrição:
+ * Arquivo de testes para a estrutura de lista encadeada simples.
+ * Aqui são testadas inserções, remoções, buscas e impressões da lista.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
