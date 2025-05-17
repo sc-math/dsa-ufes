@@ -1,10 +1,10 @@
 /*
- * Projeto: Lista Encadeada Simples
+ * Projeto: Lista Duplamente Encadeada
  * Tipo: Estrutura de Dados Linear
- * Arquivo: simple_list.c
+ * Arquivo: doubly_list.c
  *
  * Descrição:
- * Implementação de uma lista encadeada simples em C, com operações básicas como:
+ * Implementação de uma lista duplamente encadeada em C, com operações básicas como:
  * inserção no início/fim, remoção, busca e exibição.
  *
  * Paradigma: Imperativo
@@ -16,7 +16,7 @@
  * Data: 17/05/2025
  */
 
-#include "simple_list.h"
+#include "doubly_list.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -53,6 +53,7 @@ bool addFirst(List *list, const int value) {
 
     newNode->data = value;
     newNode->next = list->head;
+    newNode->prev = NULL;
 
     list->head = newNode;
     if (list->tail == NULL) {
@@ -71,6 +72,7 @@ bool addLast(List *list, const int value) {
 
     newNode->data = value;
     newNode->next = NULL;
+    newNode->prev = list->tail;
 
     if (list->head == NULL) {
         list->head = newNode;
@@ -107,6 +109,8 @@ bool addAt(List *list, const int index, const int value) {
     }
 
     newNode->next = current->next;
+    newNode->prev = current;
+    current->next->prev = newNode;
     current->next = newNode;
     list->size++;
 
@@ -158,10 +162,8 @@ bool setAt(const List *list, const int index, const int value) {
     return true;
 }
 
-// Remove o nó na posição index, retorna o valor removido por referência
 bool removeAt(List *list, const int index, int *out) {
-
-    if (index < 0 || index >= list->size || list->head == NULL)
+    if (list == NULL || index < 0 || index >= list->size || list->head == NULL)
         return false;
 
     Node *toRemove;
@@ -172,8 +174,9 @@ bool removeAt(List *list, const int index, int *out) {
         *out = toRemove->data;
 
         list->head = list->head->next;
-
-        if (list->head == NULL)
+        if (list->head != NULL)
+            list->head->prev = NULL;
+        else
             list->tail = NULL;
 
         free(toRemove);
@@ -181,7 +184,23 @@ bool removeAt(List *list, const int index, int *out) {
         return true;
     }
 
-    // Remover fora do início
+    // Remove no fim
+    if (index == list->size - 1) {
+        toRemove = list->tail;
+        *out = toRemove->data;
+
+        list->tail = list->tail->prev;
+        if (list->tail != NULL)
+            list->tail->next = NULL;
+        else
+            list->head = NULL;
+
+        free(toRemove);
+        list->size--;
+        return true;
+    }
+
+    // Remove no meio
     Node *prev = list->head;
     for (int i = 0; i < index - 1; i++) {
         prev = prev->next;
@@ -190,14 +209,13 @@ bool removeAt(List *list, const int index, int *out) {
     toRemove = prev->next;
     *out = toRemove->data;
     prev->next = toRemove->next;
-
-    if (toRemove->next == list->tail)
-        list->tail == prev;
+    toRemove->next->prev = prev;
 
     free(toRemove);
     list->size--;
     return true;
 }
+
 
 // Retorna o número de elementos da lista
 int size(const List *list) {
@@ -250,7 +268,7 @@ void printList(const List *list) {
     printf("Lista: %d", list->head->data);
     const Node *current = list->head->next;
     while (current != NULL) {
-        printf(" -> %d", current->data);
+        printf(" <-> %d", current->data);
         current = current->next;
     }
     printf("\n");
